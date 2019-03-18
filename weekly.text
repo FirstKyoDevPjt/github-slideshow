@@ -1,0 +1,16 @@
+2019.03.11 ~ 2019.03.15
+1. skbitsm - softman9
+2. dir /on /b /a-d /s > list.txt 
+3. 기존 TB_TABLE 이 아닌 TEMP_TABLE 로 임시 TABLE 생성 하여 작업 중..(일괄 변경 처리 할 것..)
+ - 프로그램 기준정보 목록 조회, 프로그램 기준정보 상세 내역 조회(상세 화면 없음)
+ - 프로그램 기준정보 등록(화면 없음), 프로그램 기준정보 변경(화면 없음)
+ - JIRA Collector I/F 
+
+4. jdbc:mysql://localhost:3306/test?allowMultiQueries=true
+ - 다중 쿼리 사용 시 이용
+
+
+2019.03.04 ~ 2019.03.08
+1.이운교, 김진웅, 한용희, 노상균
+ - 개발을 위한 기본 setting(sts, jdk 등등)
+
