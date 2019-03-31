@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+
+	<bean id="dataSource" class="${jdbc.dataSource.class}">
+		<property name="driverClassName" value="${jdbc.dirver}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		
+		<!-- 기존 검사 로직 -->
+		<!-- <property name="validationQuery" value="SELECT 1" />                        
+        <property name="testOnBorrow" value="true" />  
+        <property name="testWhileIdle" value="true" /> -->
+        
+        <!-- 검사 로직 (일부 값은 DBCP2용)-->
+	        <!-- 4개의 설정은 동일하게 설정하는 것이 예외 케이스를 줄일 수 있음 -->
+			<!-- <property name="initialSize" value="20"/>
+			<property name="maxTotal" value="20"/>
+			<property name="maxIdle" value="20"/>
+			<property name="minIdle" value="20"/>
+			
+			풀에 의해서 생성된 커넥션의 read-only상태를 설정 (default = 드라이버기본값)
+			<property name="defaultReadOnly" value="true"/>
+			
+			pool이 고갈되었을 경우 최대 대기 타임 ms
+			<property name="maxWaitMillis" value="3000"/>
+			
+			풀에 커넥션을 반환하기 전이나, 풀을 획득하기 전에 커넥션이 valid한지를 검사, mysql 기준으로 보통 select 1 설정
+			<property name="validationQuery" value="SELECT 1 FROM DUAL"/>
+			
+			Evictor 설정
+			<property name="testOnBorrow" value="false"/>
+			<property name="testOnReturn" value="false"/>
+			
+			testWhileIdle 설정. 150초마다 4개의 connection 꺼내 validation query를 날려 확인
+			<property name="testWhileIdle" value="true"/>
+			<property name="timeBetweenEvictionRunsMillis" value="150000"/>
+			<property name="numTestsPerEvictionRun" value="4"/>
+			<property name="minEvictableIdleTimeMillis" value="-1"/>
+			
+			preparedStatement 풀링 여부
+			<property name="poolPreparedStatements" value="true"/>
+			<property name="maxOpenPreparedStatements" value="50"/> -->
+	</bean>
+	
+	<!-- <bean id="dataSourceSpied" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="dataSource" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix" value="SQL         :  "/>
+            </bean>
+        </property>
+    </bean> -->
+
+	<!-- SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- MyBatis 설정 파일의 위치를 지정합니다. -->
+		<property name="configLocation" value="classpath:/mybatis-config.xml" />
+		<!-- SQL 파일의 위치를 지정합니다. -->
+		<property name="mapperLocations" value="classpath*:/mybatis/mapper/**/*.xml" />
+	</bean>
+	
+	<!-- SqlSession -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- 지정된 베이스 패키지에서 DAO(Mapper) 를 검색하여 등록합니다. -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="ipmn" />
+	</bean> 
+	
+
+	
+	<!-- 트랜잭션 매니저 bean 을 등록합니다. -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 아노테이션 기반의 트랜잭션을 사용합니다. -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>

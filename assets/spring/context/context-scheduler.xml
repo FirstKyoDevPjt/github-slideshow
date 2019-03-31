@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+            xmlns:context="http://www.springframework.org/schema/context" 
+            xmlns:p="http://www.springframework.org/schema/p" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:mvc="http://www.springframework.org/schema/mvc"    
+            xmlns:task="http://www.springframework.org/schema/task"             
+            xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd         
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+	
+		<task:annotation-driven />    
+		<!-- 스케쥴러 클래스 정의  -->
+		<!-- <bean id="cronPlatIpScheduler"			class="ipmn.batch.controller.CronPlatIpScheduler" />
+		<bean id="cronPlatSubnetScheduler"		class="ipmn.batch.controller.CronPlatSubnetScheduler" />
+		<bean id="cronTiamsScheduler"			class="ipmn.batch.controller.CronTiamsScheduler" />
+		<bean id="CronElkSolidScheduler"		class="ipmn.batch.controller.CronElkSolidScheduler" />
+		<bean id="CronElkSecuAuditScheduler"	class="ipmn.batch.controller.CronElkSecuAuditScheduler" />
+		<bean id="cronEscortScheduler"			class="ipmn.batch.controller.CronEscortScheduler" />
+		<bean id="cronIpScanScheduler"			class="ipmn.batch.controller.CronIpScanScheduler" />
+		<bean id="cronSepScheduler"				class="ipmn.batch.controller.CronSepScheduler" />
+		<bean id="cronSccmScheduler"			class="ipmn.batch.controller.CronSccmScheduler" />
+		<bean id="cronPmsScheduler"				class="ipmn.batch.controller.CronPmsScheduler" />
+		<bean id="cronDnsReqScheduler"			class="ipmn.batch.controller.CronDnsReqScheduler" />
+		<bean id="cronIpDtlInfoScheduler"		class="ipmn.batch.controller.CronIpDtlInfoScheduler" />
+		<bean id="cronTangoScheduler"			class="ipmn.batch.controller.CronTangoScheduler" />
+		<bean id="CronStuserScheduler"			class="ipmn.batch.controller.CronStuserScheduler" />
+		<bean id="CronPingRsltScheduler"		class="ipmn.batch.controller.CronPingRsltScheduler" /> -->
+
+</beans>
