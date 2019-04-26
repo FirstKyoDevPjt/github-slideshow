@@ -1,0 +1,83 @@
+★ Jenkins 설치
+
+Jenkins는 Automation Server 로 설정되므로 아래 계정 생성 무시
+------------------------
+ Jenkins O/S 계정 생성
+ $ useradd -d /app/jenkins -u 1020 jenkins -s /bin/bash
+     -m  --> 홈 디렉토리 생성
+     -s /bin/bash  --> 쉘 환경 설정 
+ $ passwd jenkins 
+   비밀번호 : itworksjenkins
+-----------------
+
+★ yum 설치법
+http://goddaehee.tistory.com/82  --> 참조 사이트
+1. $ wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+2. $ rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+3. $ yum install jenkins
+
+★ 가장 최신의 Jenkins 파일을 확인하여 설치
+http://pkg.jenkins.io/redha-stable
+
+위 Site의 가장 최신 버전의 Jenkins Link 주소를 확인하여 설치
+
+# yum -y install http://pkg.jenkins.io/redhat-stable/jenkins-2.164.1-1.1.noarch.rpm
+
+
+
+★ Jenkins port 변경
+
+Jenkins home의 기본 경로는 = /var/lib/jenkins 입니다.
+Jenkins의 기본 포트는 8080 이나, vi 편집기를 통해 Jenkins의 포트를 변경 합니다. 
+
+$vi /etc/sysconfig/jenkins   --> vi 편집기로 jenkins 파일 Open
+JENKINS_PORT="9080"          --> Jenkins Port 정보 수정(사용할 Port 로 변경--)     
+:wq!                         --> vi 편집기 저장 후 exit
+
+Jenkins 기본 디렉토리
+/var/lib/jenkins
+
+.bash_profile 내에 Java Home 폴더 설정
+
+--> open JDK
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+PATH=$PATH:$HOME/.local/bin:$HOME/bin:$JAVA_HOME/bin:
+export PATH
+
+--> Oracle JDK 1.8
+JAVA_HOME=/app/jira/java/jdk1.8.0_191
+PATH=$PATH:$HOME/.local/bin:$HOME/bin:$JAVA_HOME/bin:
+export PATH
+              
+
+★ Jenkins service 시작
+
+$ /etc/init.d/jenkins start
+
+★ Jenkins 임시 password 입력
+
+http://169.56.80.154:9090 
+
+접속을 합니다. Log-In 화면이 Browser 상에 나타나면
+/var/lib/jenkins/secrets/initialAdminPassword 파일을 열면 임시 패스워드가 있습니다.
+임시 패스워드를 복사하여 입력하고 Continue를 누릅니다.
+$ vi /var/lib/jenkins/secrets/initialAdminPassword
+ 
+ Jenkins Administrator User 및 Password
+ Admin User     = itsmadm 
+ Admin Password = itsmadm
+      User Name = ITSM
+ 
+ 
+★ 방화벽 설정
+
+  방화벽 Open 현황
+  
+# firewall-cmd --list-ports
+ 
+  Open할 방화벽 설정
+# firewall-cmd --zone=public --add-port=7990/tcp --permanent
+# firewall-cmd --zone=public --add-service=http --permanent  
+# firewall-cmd --zone=public --add-service=http --permanent  
+# firewall-cmd --reload
+
